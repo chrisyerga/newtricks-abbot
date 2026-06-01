@@ -38,7 +38,7 @@ jobs:
           script: |
             bash -lc '
               set -e
-              [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+              [ -f "$HOME/.bashrc" ] && PS1=porch-ci . "$HOME/.bashrc"
               set -u
 
               export NVM_DIR="$HOME/.nvm"
