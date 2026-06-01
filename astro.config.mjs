@@ -3,5 +3,5 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [tailwind({ applyBaseStyles: false })],
-  site: 'https://newtricks.ai'
+  site: 'https://abbot.newtricks.ai'
 });
