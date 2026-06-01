@@ -37,9 +37,14 @@ jobs:
           key: ${{ secrets.PORCH_SSH_KEY }}
           script: |
             bash -lc '
-              set -eu
+              set -e
+              [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+              set -u
+
               export NVM_DIR="$HOME/.nvm"
-              . "$NVM_DIR/nvm.sh"
+              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              : "${DIGITALOCEAN_TOKEN:?DIGITALOCEAN_TOKEN must be available to Porch}"
+
               npx --yes @lindale/porch service register \
                 --service-id abbot \
                 --domain abbot.newtricks.ai \
