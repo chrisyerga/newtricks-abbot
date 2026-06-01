@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    title: 'Prompt Diff Lab',
+    status: 'In progress',
+    summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+  },
+  {
+    title: 'AI CLI Recipes',
+    status: 'Queued',
+    summary: 'Mauris cursus nunc in congue malesuada. Nullam faucibus.'
+  },
+  {
+    title: 'Legacy-to-AI Refactor',
+    status: 'Prototype',
+    summary: 'Integer posuere ligula ut velit feugiat, vel tristique sem iaculis.'
+  }
+];
+---
+
+<BaseLayout title="Projects | newtricks.ai" description="Hands-on AI projects from newtricks.ai">
+  <section class="mx-auto w-full max-w-5xl px-6 py-16">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Projects</p>
+    <h1 class="mt-3 font-display text-6xl uppercase leading-none text-zinc-100">Build logs</h1>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {projects.map((project) => (
+        <article class="card">
+          <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-phosphor">{project.status}</p>
+          <h2 class="mt-3 font-display text-3xl uppercase leading-[0.95] text-zinc-100">{project.title}</h2>
+          <p class="mt-3 text-sm text-zinc-300">{project.summary}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

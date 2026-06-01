@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | newtricks.ai`} description={post.data.description}>
+  <article class="mx-auto w-full max-w-3xl px-6 py-16">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">{post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+    <h1 class="mt-4 font-display text-6xl uppercase leading-[0.92] text-zinc-100">{post.data.title}</h1>
+    <p class="mt-6 text-lg text-zinc-300">{post.data.description}</p>
+
+    <div class="prose prose-invert mt-10 max-w-none prose-headings:font-display prose-headings:uppercase prose-a:text-phosphor prose-strong:text-signal">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

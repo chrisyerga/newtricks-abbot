@@ -1,0 +1,37 @@
+---
+const links = [
+  { href: '/blog', label: 'Blog' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/videos', label: 'Videos' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' }
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-white/10 bg-ink/85 backdrop-blur-xl">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+    <a href="/" class="group flex items-center gap-3">
+      <span class="font-display text-3xl uppercase tracking-wide text-signal transition group-hover:text-phosphor">newtricks</span>
+      <span class="rounded border border-phosphor/60 px-2 py-1 font-mono text-xs uppercase tracking-[0.2em] text-phosphor">ai</span>
+    </a>
+
+    <nav class="hidden items-center gap-5 md:flex">
+      {links.map((link) => {
+        const isActive = currentPath.startsWith(link.href);
+        return (
+          <a
+            href={link.href}
+            class:list={[
+              'font-mono text-xs uppercase tracking-[0.2em] transition',
+              isActive ? 'text-phosphor' : 'text-zinc-300 hover:text-signal'
+            ]}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</header>

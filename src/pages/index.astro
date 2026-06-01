@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+
+const latestPost = posts[0];
+---
+
+<BaseLayout title="newtricks.ai — AI for old dogs" description="New tricks for experienced programmers learning to build with AI.">
+  <section class="relative overflow-hidden px-6 pt-20 pb-16">
+    <div class="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+      <div class="space-y-8">
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-phosphor">AI for old dogs</p>
+        <h1 class="editorial-glow font-display text-6xl uppercase leading-[0.9] text-zinc-100 md:text-8xl">
+          newtricks
+          <span class="block text-signal">learn loud.</span>
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-zinc-300">
+          A cyber-editorial playground for experienced programmers adapting to AI-native workflows.
+          Blog posts, projects, and videos for people who already know how to code — and want sharper tools.
+        </p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a href={latestPost ? `/blog/${latestPost.slug}` : '/blog'} class="rounded border border-signal/80 bg-signal/10 px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-signal transition hover:-translate-y-0.5 hover:bg-signal/20 hover:shadow-signal">
+            Read latest post
+          </a>
+          <a href="https://x.com/newtricksai" class="rounded border border-phosphor/70 px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-phosphor transition hover:-translate-y-0.5 hover:bg-phosphor/10">
+            Follow @newtricksai
+          </a>
+        </div>
+      </div>
+
+      <aside class="card relative scanline">
+        <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">Signal board</p>
+        <ul class="mt-4 space-y-5">
+          <li>
+            <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-signal">Focus</p>
+            <p class="mt-1 text-zinc-200">Practical AI patterns for seasoned engineers.</p>
+          </li>
+          <li>
+            <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-phosphor">Content</p>
+            <p class="mt-1 text-zinc-200">Posts, code projects, and workflow video breakdowns.</p>
+          </li>
+          <li>
+            <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-signal">Cadence</p>
+            <p class="mt-1 text-zinc-200">Fresh experiments, practical takeaways, zero fluff.</p>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section id="scroll-story" class="relative mx-auto w-full max-w-6xl px-6 py-16">
+    <div class="grid gap-14 lg:grid-cols-[0.45fr_0.55fr]">
+      <div class="lg:sticky lg:top-24 lg:h-[420px]">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Scroll story</p>
+        <h2 class="mt-4 font-display text-5xl uppercase leading-[0.92] text-zinc-100 md:text-6xl">
+          From muscle memory
+          <span class="block text-phosphor">to AI reflexes.</span>
+        </h2>
+        <p class="mt-6 max-w-md text-zinc-300">
+          Scroll to transition through how newtricks approaches learning. The active panel highlights where you are.
+        </p>
+      </div>
+
+      <div class="space-y-16" data-scroll-panels>
+        {[
+          {
+            title: 'Unlearn default habits',
+            color: 'text-signal',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tristique efficitur felis, sed pulvinar magna posuere id.'
+          },
+          {
+            title: 'Build AI pair loops',
+            color: 'text-phosphor',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius, nunc ac aliquet pellentesque, arcu lacus porta erat.'
+          },
+          {
+            title: 'Ship and reflect weekly',
+            color: 'text-signal',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat justo ut magna egestas, a pharetra lectus aliquet.'
+          }
+        ].map((item, index) => (
+          <article class="card min-h-56 transition duration-300" data-panel={index}>
+            <p class={`font-mono text-[11px] uppercase tracking-[0.18em] ${item.color}`}>Phase 0{index + 1}</p>
+            <h3 class="mt-3 font-display text-4xl uppercase leading-[0.95] text-zinc-100">{item.title}</h3>
+            <p class="mt-4 leading-relaxed text-zinc-300">{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto w-full max-w-6xl px-6 py-16">
+    <div class="flex items-end justify-between gap-8">
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Latest posts</p>
+        <h2 class="mt-3 font-display text-5xl uppercase leading-none text-zinc-100">Fresh tricks</h2>
+      </div>
+      <a href="/blog" class="font-mono text-xs uppercase tracking-[0.2em] text-phosphor hover:text-signal">View all posts →</a>
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      {posts.map((post) => (
+        <a class="card block transition hover:-translate-y-1 hover:border-signal/60" href={`/blog/${post.slug}`}>
+          <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+          <h3 class="mt-3 font-display text-3xl uppercase leading-[0.95] text-zinc-100">{post.data.title}</h3>
+          <p class="mt-3 text-sm text-zinc-300">{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <script lang="ts">
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-panel]'));
+    const root = document.querySelector<HTMLElement>('[data-scroll-panels]');
+
+    if (panels.length && root) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const targetPanel = entry.target as HTMLElement;
+            panels.forEach((panel) => {
+              panel.classList.toggle('border-phosphor/60', panel === targetPanel);
+              panel.classList.toggle('shadow-phosphor', panel === targetPanel);
+            });
+          });
+        },
+        { threshold: 0.45 }
+      );
+
+      panels.forEach((panel) => observer.observe(panel));
+    }
+
+    window.addEventListener('scroll', () => {
+      const scanlines = document.querySelectorAll<HTMLElement>('.scanline');
+      const normalized = Math.min(window.scrollY / 900, 1.5);
+      scanlines.forEach((node) => {
+        node.style.setProperty('--scanline-offset', `${-120 + normalized * 230}%`);
+      });
+    });
+  </script>
+</BaseLayout>
