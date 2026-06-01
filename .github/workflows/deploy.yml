@@ -38,6 +38,8 @@ jobs:
           script: |
             bash -lc '
               set -eu
+              export NVM_DIR="$HOME/.nvm"
+              . "$NVM_DIR/nvm.sh"
               npx --yes @lindale/porch service register \
                 --service-id abbot \
                 --domain abbot.newtricks.ai \
