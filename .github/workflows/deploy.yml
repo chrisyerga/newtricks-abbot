@@ -48,4 +48,9 @@ jobs:
                 --image ghcr.io/chrisyerga/newtricks-abbot:${{ github.sha }} \
                 --deploy-path /opt/abbot \
                 --json
+
+              # Porch rewrites the Caddyfile; restart Caddy so the bind mount
+              # sees the new file inode before serving the updated route.
+              cd /opt/porch
+              docker compose restart caddy
             '
